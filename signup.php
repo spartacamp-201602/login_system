@@ -13,14 +13,23 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 	}
 	if(empty($errors)){
 		$dbh=connectDatabase();
-		$sql='insert into users (name,password,created_at)values(:name,:password,now());';
+		$sql="select * from users where name=:name;";
 		$stmt=$dbh->prepare($sql);
 		$stmt->bindParam(':name',$name);
-		$stmt->bindParam(':password',$password);
 		$stmt->execute();
-
-		header('Location:login.php');
-		exit;
+		$same=$stmt->fetch(PDO::FETCH_ASSOC);
+//var_dump($same);
+		if($same){
+			$errors[]= 'ユーザーネーム"'.$same['name'].'"は登録済みです';
+		}else{
+			$sql='insert into users (name,password,created_at)values(:name,:password,now());';
+			$stmt=$dbh->prepare($sql);
+			$stmt->bindParam(':name',$name);
+			$stmt->bindParam(':password',$password);
+			$stmt->execute();
+			header('Location:login.php');
+			exit;
+		}
 	}
 }
 

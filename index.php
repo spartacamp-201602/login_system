@@ -29,5 +29,6 @@ if(empty($_SESSION['id'])){
     <h1>登録したユーザーのみ閲覧可能です！</h1>
     <h2>ようこそ<?php echo $name ?>さん。</h2>
     <p><a href='logout.php'>ログアウト</a></p>
+    <p><a href='remake.php'>編集</a></p>
 </body>
 </html>
