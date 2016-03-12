@@ -41,7 +41,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			header('Location:index.php');
 			exit;
 		}else{
-			$errrors[]='ユーザーネームかパスワードが間違っています。';
+			$errors[]='ユーザーネームかパスワードが間違っています。';
 		}
 	}
 
