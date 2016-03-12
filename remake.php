@@ -7,9 +7,10 @@ session_start();
 	$errors=array();
 
 	$dbh=connectDatabase();
-	$sql="select * from users where id=:id;";
+	$sql="select * from users where name=:name and id!=:id;";
 	$stmt=$dbh->prepare($sql);
 	$stmt->bindParam(':id',$_SESSION['id']);
+	$stmt->bindParam(':name',$_SESSION['name']);
 	$stmt->execute();
 	$base=$stmt->fetch(PDO::FETCH_ASSOC);
 	
@@ -74,8 +75,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     </div>
 
     <form action="" method="post">
-        ユーザネーム: <input type="text" name="name" value='<?php echo $name2; ?>'><br>
-        パスワード: <input type="text" name="password" value='<?php echo $password2;?>'><br>
+        ユーザネーム: <input type="text" name="name" value='<?php echo $name; ?>'><br>
+        パスワード: <input type="text" name="password" value='<?php echo $password;?>'><br>
         <input type="submit" value="編集">
     </form>
     <br>
