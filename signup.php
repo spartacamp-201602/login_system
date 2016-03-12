@@ -1,22 +1,22 @@
 <?php
 require_once('config.php');
 require_once('functions.php');
-if($_SERVER['REQUEST_MESSAGE']=='POST'){
+if($_SERVER['REQUEST_METHOD']=='POST'){
 	$name=$_POST['name'];
 	$password=$_POST['password'];
 	$errors=array();
 	if(empty($name)){
-		$errors='ユーザー名が未入力です';
+		$errors[]='ユーザー名が未入力です';
 	}
 	if(empty($password)){
-		$errors='パスワードが未入力です';
+		$errors[]='パスワードが未入力です';
 	}
 	if(empty($errors)){
 		$dbh=connectDatabase();
-		$sql='insert into users (name,password,created_at)values(:name,:password,:now()';
+		$sql='insert into users (name,password,created_at)values(:name,:password,now());';
 		$stmt=$dbh->prepare($sql);
-		$stmt->bindPalam(':name',$name);
-		$stmt->bindPalam(':password',$password);
+		$stmt->bindParam(':name',$name);
+		$stmt->bindParam(':password',$password);
 		$stmt->execute();
 
 		header('Location:login.php');
@@ -31,6 +31,12 @@ if($_SERVER['REQUEST_MESSAGE']=='POST'){
     <meta charset="UTF-8">
     <title>新規登録画面</title>
 </head>
+<style>
+	.error{
+		color:red;
+		list-style: none;
+	}
+</style>
 <body>
     <h1>新規ユーザー登録</h1>
 
